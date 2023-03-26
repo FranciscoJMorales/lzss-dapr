@@ -10,9 +10,43 @@ This quickstart includes one publisher:
 
 - Node client message generator `checkout` 
 
-And one subscriber: 
+One subscriber: 
  
-- Node subscriber `order-processor`
+- Node subscriber `mongo`
+
+And one that does both:
+
+- Node publisher/subscriber `order-processor`
+
+### Run Node mongo subscriber with Dapr
+
+1. Install dependencies: 
+
+<!-- STEP
+name: Install Node dependencies
+-->
+
+```bash
+cd ./mongo
+npm install
+```
+<!-- END_STEP -->
+3. Run the Node mongo app with Dapr: 
+
+<!-- STEP
+name: Run Node publisher
+expected_stderr_lines:
+working_dir: ./mongo
+output_match_mode: substring
+background: true
+sleep: 10
+-->
+    
+```bash
+dapr run --app-port 5002 --app-id mongo --app-protocol http --dapr-http-port 3500 --resources-path ../components -- npm run start
+```
+
+<!-- END_STEP -->
 
 ### Run Node message subscriber with Dapr
 
@@ -42,7 +76,7 @@ sleep: 10
 -->
     
 ```bash
-dapr run --app-port 5002 --app-id order-processing-sdk --app-protocol http --dapr-http-port 3501 --resources-path ../../../components -- npm run start
+dapr run --app-port 5002 --app-id order-processing-sdk --app-protocol http --dapr-http-port 3501 --dapr-http-client-port 3502 --resources-path ../components -- npm run start
 ```
 
 <!-- END_STEP -->
@@ -76,7 +110,7 @@ sleep: 10
 -->
     
 ```bash
-dapr run --app-id checkout-sdk --app-protocol http --dapr-http-port 3500 --resources-path ../../../components -- npm run start
+dapr run --app-id checkout-sdk --app-protocol http --dapr-http-port 3500 --resources-path ../components -- npm run start
 ```
 
 <!-- END_STEP -->
