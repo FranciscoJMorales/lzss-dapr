@@ -19,7 +19,7 @@ async function main() {
   app.post('/compress', async (req, res) => {
     const text = req.body.text;
     console.log("Text received: " + text)
-    await client.pubsub.publish(PUBSUB_NAME, "PUBSUB_COMPRESS", text);
+    await client.pubsub.publish(PUBSUB_NAME, PUBSUB_COMPRESS, text);
     res.status(200).json("Text compressed successfully and saved to database");
   })
   
